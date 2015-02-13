@@ -1,0 +1,49 @@
+.main_container{
+    margin-top:51px;
+}
+.form-center {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.navbar-line-height-fix{
+    line-height: 20px !important;
+}
+.navbar-user-info{
+    color: #777;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+.js_var{
+    display:none;
+}
+li.selected{
+    background-color: #2a6496;
+}
+li.selected>a{
+    color:white;
+}
+.removing-bundle{
+    position: relative
+}
+.removing-bundle > .row{
+    opacity: 0.2
+}
+.removing-bundle-spinner{
+    position: absolute;top:
+	50px;font-size: 1.5em;
+    text-align: center;
+    text-shadow: 1px 1px rgba(0,51,102,0.8);
+    background: rgba(0,102,204,0.8);
+    line-height: 8em;color: #fff;
+    left: 5%;
+    width: 90%;
+    border-radius: 10px;
+    z-index: 99
+}
+.download_form{
+	float:left;
+	padding:5px;
+}
