@@ -218,6 +218,11 @@
 						<li>
 							<a href="#"><i class="fa fa-list fa-fw"></i> Reports<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
+								<?php if($this->flexi_auth->is_privileged('Analyze Clock Entries')){ ?>
+									<li>
+										<a href="<?php echo site_url('module/reports/analyze_clock_entries'); ?>">Analyze -- All</a>
+									</li>
+								<?php } ?>
 								<?php if($this->flexi_auth->is_privileged('Analyze Clock Entries Per Project')){ ?>
 									<li>
 										<a href="<?php echo site_url('module/reports/analyze_clock_entries_per_project'); ?>">Analyze -- Per Project</a>

@@ -153,10 +153,10 @@ class Module extends LF_Controller {
 	}
 	public function reports($report){
 		$priv = ucwords(str_replace('_', ' ', $report));
-		//if(!$this->flexi_auth->is_privileged('Reports') || !$this->flexi_auth->is_privileged($priv)){
-//set flashdata saying you dont have access to this
-		//	redirect('home/dashboard');
-		//}
+		if(!$this->flexi_auth->is_privileged('Reports') || !$this->flexi_auth->is_privileged($priv)){
+//			set flashdata saying you dont have access to this
+			redirect('home/dashboard');
+		}
 		$report = "report_".$report;
 		if(!method_exists($this, $report) || !is_callable(array($this, $report))){
 			redirect('home/dashboard');
