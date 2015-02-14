@@ -7,21 +7,29 @@ class Download extends LF_Controller {
 		parent::__construct();
 		$this->load->helper(array('dompdf', 'file', 'excel'));
 	}
-	function per_project_pdf(){
+	public function per_project_pdf(){
 		$this->load->model('modules');
 		$this->modules->analyze_clock_entries_per_project_report();
 		$html = $this->load->view('tpl/result/per_project_results', $this->data, true);
 		pdf_create($html, 'Project Report');
 		//if you want to write it to disk and/or send it as an attachment    
 	}
-	function per_task_pdf(){
+	public function per_task_pdf(){
 		$this->load->model('modules');
 		$this->modules->analyze_clock_entries_per_task_report();
 		$html = $this->load->view('tpl/result/per_task_results', $this->data, true);
 		pdf_create($html, 'Task Report');
 		//if you want to write it to disk and/or send it as an attachment    
 	}
-	function per_project_xls(){
+	public function clock_entries_pdf(){
+		ini_set('display_errors', 1);
+		$this->load->model('modules');
+		$this->modules->analyze_clock_entries_report();
+		$html = $this->load->view('tpl/result/clock_entry_results', $this->data, true);
+		pdf_create($html, 'Clcok Entry Report');
+		//if you want to write it to disk and/or send it as an attachment 
+	}
+	public function per_project_xls(){
 		$this->load->model('modules');
 		$this->modules->analyze_clock_entries_per_project_report();
 		$results = $this->data['results'];
@@ -94,7 +102,7 @@ class Download extends LF_Controller {
 		$totals	 = [];
 		$old_tid = 0;
 		$i		 = 0;
-		$data = [];
+		$data	 = [];
 		foreach($results as $tid => $tasks){
 			if(!isset($totals[$tid])){
 				$totals[$tid] = 0;
@@ -138,5 +146,35 @@ class Download extends LF_Controller {
 		}
 		excel_create($data, 'Task Report');
 	}
+	public function clock_entries_xls(){
+		$this->load->model('modules');
+		$this->modules->analyze_clock_entries_report();
+		$results	 = $this->data['results'];
+		$i			 = 0;
+		$data		 = [];
+		$data[$i][]	 = "User Name";
+		$data[$i][]	 = "Project Name";
+		$data[$i][]	 = "Task Name";
+		$data[$i][]	 = "Start Date";
+		$data[$i][]	 = "Stop Date";
+		$i++;
+		foreach($results as $result){
+			$first_name		 = $result['first_name'];
+			$last_name		 = $result['last_name'];
+			$user_name		 = $first_name." ".$last_name;
+			$project_name	 = $result['project_name'];
+			$task_name		 = $result['task_name'];
+			$start_date		 = $result['start'];
+			$stop_date		 = $result['stop'];
+			$data[$i][]		 = $project_name;
+			$data[$i][]		 = $task_name;
+			$data[$i][]		 = $user_name;
+			$data[$i][]		 = $start_date;
+			$data[$i][]		 = $stop_date;
+			$i++;
+		}
+		excel_create($data, 'Clock Entry Report');
+	}
 }
+
 ?>

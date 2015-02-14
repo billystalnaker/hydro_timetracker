@@ -1444,6 +1444,29 @@ class Modules extends LF_Model {
 		}
 		return false;
 	}
+	public function analyze_clock_entries_report(){
+		$fields	 = [
+			'user_accounts.upro_first_name first_name',
+			'user_accounts.upro_last_name last_name',
+			'project.name project_name',
+			'task.name task_name',
+			'clock_entry.start',
+			'clock_entry.stop'
+		];
+		$this->db->select($fields);
+		$this->db->from('clock_entry');
+		$this->db->join('user_accounts', 'user_accounts.uacc_id = clock_entry.user_id', 'LEFT');
+		$this->db->join('project_task', 'project_task.id = clock_entry.project_task_id', 'LEFT');
+		$this->db->join('project', 'project.id = project_task.project_id', 'LEFT');
+		$this->db->join('task', 'task.id = project_task.task_id', 'LEFT');
+		$this->db->order_by('clock_entry.start DESC');
+		$this->db->order_by('clock_entry.stop DESC');
+		$this->db->order_by('project.name');
+		$this->db->order_by('task.name');
+		$results = $this->db->get()->result_array();
+
+		$this->data['results'] = $results;
+	}
 	public function analyze_clock_entries_per_project_report(){
 		$users				 = $this->modules->get_users(true);
 		$user_options		 = array();

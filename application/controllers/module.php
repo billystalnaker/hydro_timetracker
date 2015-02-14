@@ -153,16 +153,22 @@ class Module extends LF_Controller {
 	}
 	public function reports($report){
 		$priv = ucwords(str_replace('_', ' ', $report));
-		if(!$this->flexi_auth->is_privileged('Reports') || !$this->flexi_auth->is_privileged($priv)){
+		//if(!$this->flexi_auth->is_privileged('Reports') || !$this->flexi_auth->is_privileged($priv)){
 //set flashdata saying you dont have access to this
-			redirect('home/dashboard');
-		}
+		//	redirect('home/dashboard');
+		//}
 		$report = "report_".$report;
 		if(!method_exists($this, $report) || !is_callable(array($this, $report))){
 			redirect('home/dashboard');
 		}
 		$this->load->model('modules');
 		$this->$report();
+	}
+	public function report_analyze_clock_entries(){
+		$this->modules->analyze_clock_entries_report();
+		$this->data['message']	 = (!isset($this->data['message']))?$this->session->flashdata('message'):$this->data['message'];
+		$this->data['content']	 = $this->load->view('module/report/analyze_clock_entry_report', $this->data, true);
+		$this->load->view('tpl/structure', $this->data);
 	}
 	public function report_analyze_clock_entries_per_project(){
 		$this->modules->analyze_clock_entries_per_project_report();
