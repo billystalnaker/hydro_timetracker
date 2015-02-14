@@ -26,7 +26,7 @@ class Download extends LF_Controller {
 		$this->load->model('modules');
 		$this->modules->analyze_clock_entries_report();
 		$html = $this->load->view('tpl/result/clock_entry_results', $this->data, true);
-		pdf_create($html, 'Clcok Entry Report');
+		pdf_create($html, 'Clock Entry Report');
 		//if you want to write it to disk and/or send it as an attachment 
 	}
 	public function per_project_xls(){
